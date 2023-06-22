@@ -1,0 +1,60 @@
+name: Build | Deploy
+run-name: Deploy to remote tencent server
+
+env:
+  RELEASE_BUILD: "target/release/college-student-pe-score"
+  SCCACHE_GHA_ENABLED: "true"
+  RUSTC_WRAPPER: "sccache"
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Format code using rustfmt
+        uses: mbrobbel/rustfmt-check@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Restore dependencies and build cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run sccache-cache
+        uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Setup Rust
+        uses: ATiltedTree/setup-rust@v1.0.5
+        with:
+          rust-version: nightly
+
+      - name: Gather dependencies | Build
+        run: cargo build --release
+
+      - name: Deploy to remote tencent server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ vars.USERNAME }}
+          server: ${{ secrets.SERVER_IP }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: ${{ env.RELEASE_BUILD }}
+          remote_path: ${{ vars.REMOTE_PATH }}
+          delete_remote_files: true
+          sftpArgs: "-o ConnectTimeout=5"
