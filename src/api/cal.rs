@@ -40,6 +40,8 @@ pub struct StudentPEInfo {
 /// 各项目分数及总分
 #[derive(Serialize, Deserialize)]
 pub struct StudentPEScore {
+    err_msg: Option<String>,
+
     /// 体重指数(BMI) 15%
     bmi: f64,
 
@@ -69,8 +71,9 @@ pub struct StudentPEScore {
 }
 
 impl StudentPEScore {
-    pub const fn empty() -> StudentPEScore {
+    pub fn with_message(msg: &str) -> StudentPEScore {
         StudentPEScore {
+            err_msg: Some(String::from(msg)),
             bmi: 0.,
             vc: 0.,
             r50m: 0.,
@@ -94,6 +97,7 @@ impl StudentPEScore {
         long_run: f64,
     ) -> Self {
         let mut ret = Self {
+            err_msg: None,
             bmi,
             vc,
             r50m,
@@ -197,7 +201,7 @@ const TABLE: [[[[f64; 20]; 6]; 2]; 2] = [
             ],
         ],
     ],
-    // TODO 女
+    // 女
     [
         // 大一大二
         [
@@ -439,7 +443,6 @@ impl TryFrom<i32> for Grade {
     }
 }
 
-// TODO: 详细的错误信息
 pub async fn calculate_pe_score(
     Json(info): Json<StudentPEInfo>,
 ) -> (StatusCode, Json<StudentPEScore>) {
@@ -459,8 +462,16 @@ pub async fn calculate_pe_score(
         }
     }
 
-    if !valid || Grade::try_from(info.grade).is_err() {
-        (StatusCode::BAD_REQUEST, Json(StudentPEScore::empty()))
+    if !valid {
+        (
+            StatusCode::BAD_REQUEST,
+            Json(StudentPEScore::with_message("unsupported gender")),
+        )
+    } else if Grade::try_from(info.grade).is_err() {
+        (
+            StatusCode::BAD_REQUEST,
+            Json(StudentPEScore::with_message("invalid grade")),
+        )
     } else {
         (StatusCode::OK, Json(cal(info).await))
     }
