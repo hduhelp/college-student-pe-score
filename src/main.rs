@@ -5,6 +5,9 @@ use axum::{
     Router,
 };
 
+#[macro_use]
+extern crate tracing;
+
 mod api;
 
 use api::*;
@@ -19,6 +22,7 @@ async fn main() {
 
     let addr = "127.0.0.1:9991".parse().unwrap();
 
+    info!("be ready to serve");
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
