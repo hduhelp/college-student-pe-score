@@ -4,8 +4,8 @@
     "weight": 74.2,
     "vc": 4800,
     "r50m": 7.5,
-    "sitting_forward_flexion": 14.0,
-    "standing_long_jump": 3.0,
+    "sff": 0.0,
+    "slj": 0.0,
     "pull_up": 12,
     "sit_up": null,
     "long_run": 3.45
