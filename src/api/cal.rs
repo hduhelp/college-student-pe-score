@@ -118,6 +118,7 @@ impl StudentPEScore {
             + s.vc * 0.15
             + s.r50m * 0.2
             + s.sff * 0.1
+            + s.slj * 0.1
             + s.long_run * 0.2
             + if let Some(pull_up) = s.pull_up {
                 pull_up * 0.1
@@ -127,6 +128,7 @@ impl StudentPEScore {
     }
 }
 
+// TOOD: 改写成宏方便导入数据
 const TABLE: [[[[f64; 20]; 6]; 2]; 2] = [
     // 男
     [
@@ -290,11 +292,13 @@ const ITEM_PULL_SIT_UP: usize = 4;
 const ITEM_LONG_RUN: usize = 5;
 
 async fn cal(info: StudentPEInfo) -> StudentPEScore {
-    let bmi = cal_bmi(info.height, info.weight);
+    let mut bmi = cal_bmi(info.height, info.weight);
 
     let gender = info.gender as usize;
     let grade = info.grade as usize;
     let item_level = &TABLE[gender][grade];
+
+    bmi = cal_bmi_score(bmi, gender);
 
     /// 用于测量值越高分越高的项目
     ///
@@ -398,6 +402,31 @@ async fn cal(info: StudentPEInfo) -> StudentPEScore {
     }
 }
 
+fn cal_bmi_score(bmi: f64, gender: usize) -> f64 {
+    if bmi >= 28.0 {
+        return 60.;
+    }
+    if 24. <= bmi && bmi <= 27.9 {
+        return 80.;
+    }
+    // 男
+    if gender == 0 {
+        match bmi {
+            b if b <= 17.8 => return 80.,
+            b if 17.9 <= b && b <= 23.9 => return 100.,
+            _ => unreachable!(),
+        }
+    }
+    // 女
+    else {
+        match bmi {
+            b if b <= 17.1 => return 80.,
+            b if 17.2 <= b && b <= 23.9 => return 100.,
+            _ => unreachable!(),
+        }
+    }
+}
+
 /// kg/m^2
 #[inline]
 fn cal_bmi(height: f64, weight: f64) -> f64 {
@@ -475,12 +504,4 @@ pub async fn calculate_pe_score(
     } else {
         (StatusCode::OK, Json(cal(info).await))
     }
-}
-
-#[cfg(test)]
-mod tests {
-
-    // TODO: 测试
-    #[test]
-    fn test_cal() {}
 }
