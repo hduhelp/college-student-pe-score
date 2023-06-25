@@ -1,12 +1,12 @@
 {
     "err_msg": null,
-    "bmi": 27.0,
-    "vc": 1.0,
-    "r50m": 1.0,
-    "sff": 0.0,
-    "slj": 0.0,
-    "pull_up": 1.0,
+    "bmi": 100,
+    "vc": 90,
+    "r50m": 76,
+    "sff": 70,
+    "slj": 85,
+    "pull_up": 70,
     "sit_up": null,
-    "long_run": 1.0,
-    "total": 12.0
+    "long_run": 78,
+    "total": 81.80000000000001
 }

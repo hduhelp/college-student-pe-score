@@ -1,13 +1,13 @@
 {
     "gender": 0,
     "grade": 0,
-    "height": 1.83,
-    "weight": 74.2,
+    "height": 1.68,
+    "weight": 56.5,
     "vc": 4800,
-    "r50m": 7.5,
-    "sff": 0.0,
-    "slj": 0.0,
+    "r50m": 7.43,
+    "sff": 12,
+    "slj": 256,
     "pull_up": 12,
     "sit_up": null,
-    "long_run": 3.45
+    "long_run": 3.43
 }

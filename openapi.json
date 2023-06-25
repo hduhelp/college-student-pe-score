@@ -1,0 +1,287 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "api",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "杂鱼体质健康得分计算器"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "杂鱼体质健康得分计算器",
+        "x-apifox-folder": "杂鱼体质健康得分计算器",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "杂鱼体质健康得分计算器"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gender": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "性别 0: 男 1: 女",
+                    "enum": [
+                      0,
+                      1
+                    ],
+                    "x-apifox": {
+                      "enumDescriptions": {
+                        "0": "男",
+                        "1": "女"
+                      }
+                    },
+                    "default": 0,
+                    "title": "性别"
+                  },
+                  "grade": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "年级 0: 大一大二 1: 大三大四",
+                    "enum": [
+                      0,
+                      1
+                    ],
+                    "x-apifox": {
+                      "enumDescriptions": {
+                        "0": "大一大二",
+                        "1": "大三大四"
+                      }
+                    },
+                    "default": 0,
+                    "title": "年级"
+                  },
+                  "height": {
+                    "title": "身高 ",
+                    "description": "身高 (单位: m)",
+                    "type": "number"
+                  },
+                  "weight": {
+                    "title": "体重",
+                    "description": "体重 (单位: kg)",
+                    "type": "number"
+                  },
+                  "vc": {
+                    "title": "肺活量",
+                    "description": "肺活量",
+                    "type": "number"
+                  },
+                  "r50m": {
+                    "title": "50m",
+                    "description": "50m (单位: s)",
+                    "type": "number"
+                  },
+                  "sff": {
+                    "title": "坐位体前屈",
+                    "description": "坐位体前屈 (单位: cm)",
+                    "type": "number"
+                  },
+                  "slj": {
+                    "title": "立定跳远",
+                    "description": "立定跳远 (单位: cm)",
+                    "type": "number"
+                  },
+                  "pull_up": {
+                    "title": "引体向上",
+                    "description": "引体向上",
+                    "type": "number",
+                    "nullable": true
+                  },
+                  "sit_up": {
+                    "title": "仰卧起坐",
+                    "description": "仰卧起坐",
+                    "type": "number",
+                    "nullable": true
+                  },
+                  "long_run": {
+                    "type": "number",
+                    "description": "800m/1000m (单位: min)",
+                    "title": "800m/1000m "
+                  }
+                },
+                "required": [
+                  "gender",
+                  "grade",
+                  "height",
+                  "weight",
+                  "vc",
+                  "r50m",
+                  "sff",
+                  "slj",
+                  "pull_up",
+                  "sit_up",
+                  "long_run"
+                ],
+                "x-apifox-orders": [
+                  "gender",
+                  "grade",
+                  "height",
+                  "weight",
+                  "vc",
+                  "r50m",
+                  "sff",
+                  "slj",
+                  "pull_up",
+                  "sit_up",
+                  "long_run"
+                ],
+                "x-apifox-ignore-properties": []
+              },
+              "example": {
+                "gender": 0,
+                "grade": 0,
+                "height": 1.68,
+                "weight": 56.5,
+                "vc": 4800,
+                "r50m": 7.43,
+                "sff": 12,
+                "slj": 256,
+                "pull_up": 12,
+                "sit_up": null,
+                "long_run": 3.43
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "err_msg": {
+                      "type": "null"
+                    },
+                    "bmi": {
+                      "type": "number"
+                    },
+                    "vc": {
+                      "type": "number"
+                    },
+                    "r50m": {
+                      "type": "number"
+                    },
+                    "sff": {
+                      "type": "number"
+                    },
+                    "slj": {
+                      "type": "number"
+                    },
+                    "pull_up": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "sit_up": {
+                      "type": "number",
+                      "nullable": true
+                    },
+                    "long_run": {
+                      "type": "number"
+                    },
+                    "total": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "err_msg",
+                    "bmi",
+                    "vc",
+                    "r50m",
+                    "sff",
+                    "slj",
+                    "pull_up",
+                    "sit_up",
+                    "long_run",
+                    "total"
+                  ],
+                  "x-apifox-orders": [
+                    "err_msg",
+                    "bmi",
+                    "vc",
+                    "r50m",
+                    "sff",
+                    "slj",
+                    "pull_up",
+                    "sit_up",
+                    "long_run",
+                    "total"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例 ",
+                    "value": {
+                      "err_msg": null,
+                      "bmi": 100,
+                      "vc": 90,
+                      "r50m": 76,
+                      "sff": 70,
+                      "slj": 85,
+                      "pull_up": 70,
+                      "sit_up": null,
+                      "long_run": 78,
+                      "total": 81.80000000000001
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "summary": "ping",
+        "x-apifox-folder": "杂鱼体质健康得分计算器",
+        "x-apifox-status": "released",
+        "deprecated": false,
+        "description": "测试是否连通",
+        "tags": [
+          "杂鱼体质健康得分计算器"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例 ",
+                    "value": "Pong"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}
