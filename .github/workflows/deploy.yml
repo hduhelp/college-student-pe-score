@@ -12,15 +12,6 @@ on:
       - v*.*.*
 
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Format code using rustfmt
-        uses: mbrobbel/rustfmt-check@master
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
