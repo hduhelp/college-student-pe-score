@@ -13,10 +13,26 @@ struct Config {
     listen: String,
 }
 
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            listen: String::from("0.0.0.0:9991"),
+        }
+    }
+}
+
 fn readin_config() -> Config {
     debug!("reading config file: config.yaml");
-    let f = File::open("./config.yaml").expect("couldn't open config.yaml");
-    serde_yaml::from_reader::<_, Config>(&f).unwrap()
+    if let Ok(f) = File::open("./config.yaml") {
+        serde_yaml::from_reader::<_, Config>(&f).unwrap()
+    } else {
+        let defalut_config = Config::default();
+        warn!(
+            "`{{config.yaml}}` not found, using default config, listening at {}",
+            defalut_config.listen
+        );
+        defalut_config
+    }
 }
 
 pub fn listen_addr() -> SocketAddr {
