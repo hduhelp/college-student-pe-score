@@ -4,6 +4,15 @@
 
 ## 食用の方式
 
+### Docker:
+
+```shell
+$ docker build . -t college-student-pe-score
+$ docker run --rm -d -p 8080:8080 --name pe-score-cal college-student-pe-score
+```
+
+## Api
+
 ### `GET` /ping
 
 > 测试连通性
