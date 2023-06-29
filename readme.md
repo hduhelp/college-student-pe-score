@@ -1,5 +1,8 @@
 # 杂鱼体质健康得分计算器
 
+[![Build | Deploy](https://github.com/hduhelp/college-student-pe-score/actions/workflows/deploy.yml/badge.svg)](https://github.com/hduhelp/college-student-pe-score/actions/workflows/deploy.yml)
+[![Format](https://github.com/hduhelp/college-student-pe-score/actions/workflows/format.yml/badge.svg)](https://github.com/hduhelp/college-student-pe-score/actions/workflows/format.yml)
+
 杂鱼 ❤ 杂鱼~
 
 ## 食用の方式
